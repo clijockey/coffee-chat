@@ -15,14 +15,18 @@
  */
 'use strict';
 
-// Signs-in Friendly Chat.
+
+//------------------------------
+// User Auth
+
+// Signs-in 
 function signIn() {
   // Sign into Firebase using popup auth & Google as the identity provider.
   var provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().signInWithPopup(provider);
 }
 
-// Signs-out of Friendly Chat.
+// Signs-out of.
 function signOut() {
   // Sign out of Firebase.
   firebase.auth().signOut();
@@ -48,6 +52,11 @@ function isUserSignedIn() {
   return !!firebase.auth().currentUser;
 }
 
+//------------------------------
+
+//------------------------------
+// Write Messages to Cloud Firestore
+
 // Saves a new message to your Cloud Firestore database.
 function saveMessage(messageText) {
   // Add a new message entry to the database.
@@ -60,6 +69,9 @@ function saveMessage(messageText) {
     console.error('Error writing new message to database', error);
   });
 }
+
+//------------------------------
+// Read Messages from Cloud Firestore
 
 // Loads chat messages history and listens for upcoming ones.
 function loadMessages() {
@@ -82,6 +94,9 @@ function loadMessages() {
     });
   });
 }
+
+//------------------------------
+// Images and Cloud Storage
 
 // Saves a new message containing an image in Firebase.
 // This first saves the image in Firebase storage.
@@ -109,6 +124,9 @@ function saveImageMessage(file) {
     console.error('There was an error uploading a file to Cloud Storage:', error);
   });
 }
+
+//------------------------------
+// Notifications/Messages
 
 // Saves the messaging device token to the datastore.
 function saveMessagingDeviceToken() {

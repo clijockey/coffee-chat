@@ -21,12 +21,16 @@ const spawn = require('child-process-promise').spawn;
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
+
+
  // Import the Firebase SDK for Google Cloud Functions.
 const functions = require('firebase-functions');
 // Import and initialize the Firebase Admin SDK.
 const admin = require('firebase-admin');
 admin.initializeApp();
 
+//--------------------------
+// Welcome new users
 
 // Adds a message that welcomes new users into the chat.
 exports.addWelcomeMessages = functions.auth.user().onCreate(async (user) => {
@@ -34,7 +38,7 @@ exports.addWelcomeMessages = functions.auth.user().onCreate(async (user) => {
     const fullName = user.displayName || 'Anonymous';
   
     // Saves the new welcome message into the database
-    // which then displays it in the FriendlyChat clients.
+    // which then displays it in the clients.
     await admin.firestore().collection('messages').add({
       name: 'Firebase Bot',
       profilePicUrl: '/images/firebase-logo.png', // Firebase logo
@@ -43,6 +47,9 @@ exports.addWelcomeMessages = functions.auth.user().onCreate(async (user) => {
     });
     console.log('Welcome message written to database.');
   });
+
+//---------------------------
+// Image check
 
 // Checks if uploaded images are flagged as Adult or Violence and if so blurs them.
 exports.blurOffensiveImages = functions.runWith({memory: '2GB'}).storage.object().onFinalize(
@@ -85,6 +92,9 @@ async function blurImage(filePath) {
     await admin.firestore().collection('messages').doc(messageId).update({moderated: true});
     console.log('Marked the image as moderated in the database.');
   }
+
+//----------------------------
+// New message notification
 
   // Sends a notifications to all users when a new message is posted.
 exports.sendNotifications = functions.firestore.document('messages/{messageId}').onCreate(
