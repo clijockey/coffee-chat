@@ -25,7 +25,7 @@ You can run the project locally with `firebase server --only hosting`.
 
 Ensure the Firebase SDK is imported into the app (`index.html`)
 
-```
+```javascript
 <script src="/__/firebase/6.4.0/firebase-app.js"></script>
 <script src="/__/firebase/6.4.0/firebase-auth.js"></script>
 <script src="/__/firebase/6.4.0/firebase-storage.js"></script>
@@ -35,11 +35,11 @@ Ensure the Firebase SDK is imported into the app (`index.html`)
 ```
 
 The following contains the relevant Firebase config;
-```
+```javascript
 <script src="/__/firebase/init.js"></script>
 ```
 
-```
+```javascript
 if (typeof firebase === 'undefined') throw new Error('hosting/init-error: Firebase SDK not detected. You must include it before /__/firebase/init.js');
 firebase.initializeApp({
   "apiKey": "qwertyuiop_asdfghjklzxcvbnm1234568_90",
@@ -72,11 +72,11 @@ You can secure the access to things like Firestore or Cloud Storage via the Fire
 You can define access rights, security and data validations with this.
 
 To deploy the configuration files via the CLI;
-```
+```bash
 firebase deploy --only firestore
 ```
 or 
-```
+```bash
 firebase deploy --only storage
 ```
 
@@ -115,7 +115,7 @@ More details https://codelabs.developers.google.com/codelabs/firebase-web/index.
 ### Performance
 The following code in `index.html` will allow performamce monitoring;
 
-```
+```javascript
 <script type="text/javascript">!function(n,e){var t,o,i,c=[],f={passive:!0,capture:!0},r=new Date,a="pointerup",u="pointercancel";function p(n,c){t||(t=c,o=n,i=new Date,w(e),s())}function s(){o>=0&&o<i-r&&(c.forEach(function(n){n(o,t)}),c=[])}function l(t){if(t.cancelable){var o=(t.timeStamp>1e12?new Date:performance.now())-t.timeStamp;"pointerdown"==t.type?function(t,o){function i(){p(t,o),r()}function c(){r()}function r(){e(a,i,f),e(u,c,f)}n(a,i,f),n(u,c,f)}(o,t):p(o,t)}}function w(n){["click","mousedown","keydown","touchstart","pointerdown"].forEach(function(e){n(e,l,f)})}w(n),self.perfMetrics=self.perfMetrics||{},self.perfMetrics.onFirstInputDelay=function(n){c.push(n),s()}}(addEventListener,removeEventListener);</script>
 ```
 
